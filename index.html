@@ -1,1 +1,218 @@
-<!doctype html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Voltario: laboratorio personal de hábitos eléctricos y consumo energético."><link rel="icon" href="img/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="css/estilos.min.css"><title>Voltario | Laboratorio de energía</title></head><body><div class="shell"><header><a class="logo" href="#inicio" aria-label="Voltario inicio"><span class="logo-mark">↯</span><span>vol<span class="accent">tario</span></span></a><div class="header-right"><span class="eyebrow">LABORATORIO ENERGÉTICO</span><span class="status"><i></i> Simulación local</span></div></header><main id="inicio"><section class="hero"><div><div class="pill">EDICIÓN HOGAR · 01</div><h1>Haz visible lo <em>invisible.</em></h1><p>Experimenta con los aparatos de tu hogar, observa su consumo aproximado y descubre qué hábito tiene mayor impacto.</p><div class="hero-foot"><span>01 / Configura</span><span>02 / Compara</span><span>03 / Decide</span></div></div><div class="orb" aria-hidden="true"><div class="orb-inner">kWh<span>por mes</span></div></div></section><section class="workspace"><div class="panel controls"><div class="section-head"><div><span class="overline">01 / TU ESCENARIO</span><h2>Agrega un aparato</h2></div><span class="tiny">DATOS ESTIMADOS</span></div><form id="device-form"><label for="device">Aparato</label><select id="device" required><option value="foco">Foco LED</option><option value="ventilador">Ventilador</option><option value="television">Televisión</option><option value="refrigerador">Refrigerador</option><option value="laptop">Computadora portátil</option><option value="microondas">Microondas</option><option value="lavadora">Lavadora</option><option value="personalizado">Personalizado</option></select><div class="two"><div><label for="power">Potencia (W)</label><input type="number" id="power" min="1" max="10000" value="10" required></div><div><label for="hours">Horas al día</label><input type="number" id="hours" min="0.1" max="24" step="0.1" value="5" required></div></div><div class="two"><div><label for="quantity">Cantidad</label><input type="number" id="quantity" min="1" max="50" step="1" value="3" required></div><div><label for="rate">Tarifa estimada (MXN/kWh)</label><input type="number" id="rate" min="0.01" max="100" step="0.01" value="1.20" required></div></div><button type="submit" class="primary">+ Añadir al escenario</button><p class="note">Los valores son ejemplos editables. No representan una tarifa oficial ni sustituyen mediciones eléctricas.</p></form><div class="section-head compact"><h2>Mis aparatos</h2><button type="button" class="text-button" id="reset">Restablecer</button></div><ul id="devices" class="device-list" aria-live="polite"></ul></div><div class="results"><section class="panel summary"><div class="section-head"><div><span class="overline">02 / RESULTADOS</span><h2>Panorama mensual</h2></div><span class="tiny">30 DÍAS</span></div><div class="metrics"><div><span>Consumo calculado</span><strong id="energy">0.0 <small>kWh</small></strong></div><div><span>Gasto estimado</span><strong id="cost">$0 <small>MXN</small></strong></div></div><div class="chart-header"><span>Participación por aparato</span><span id="count">0 aparatos</span></div><div id="bars" class="bars" aria-label="Desglose de consumo"></div></section><section class="panel insight"><span class="overline">03 / LABORATORIO DE AHORRO</span><h2>¿Y si cambias un hábito?</h2><p>Reduce las horas de uso diario de todos los aparatos y compara el escenario original con el alternativo.</p><label for="reduction">Reducir horas de uso: <strong id="reduction-label">20 %</strong></label><input id="reduction" type="range" min="0" max="70" step="5" value="20"><div class="saving"><div><span>Ahorro aproximado al mes</span><strong id="saving">$0.00</strong></div><div><span>Energía evitada</span><strong id="saved-energy">0.0 kWh</strong></div></div><p class="tip" id="tip" aria-live="polite"></p></section></div></section><footer><span>VOLTARIO / HERRAMIENTA EDUCATIVA</span><span>Los resultados son simulaciones, no recibos ni mediciones reales.</span></footer></main></div><script defer src="js/app.min.js"></script></body></html>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Voltario: laboratorio personal de hábitos eléctricos y consumo energético."
+    />
+    <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="css/estilos.min.css" />
+    <title>Voltario | Laboratorio de energía</title>
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <a class="logo" href="#inicio" aria-label="Voltario inicio">
+          <span class="logo-mark">↯</span>
+          <span>vol<span class="accent">tario</span></span>
+        </a>
+        <div class="header-right">
+          <span class="eyebrow">LABORATORIO ENERGÉTICO</span>
+          <span class="status"><i></i> Simulación local</span>
+        </div>
+      </header>
+
+      <main id="inicio">
+        <section class="hero">
+          <div>
+            <div class="pill">EDICIÓN HOGAR · 01</div>
+            <h1>Haz visible lo <em>invisible.</em></h1>
+            <p>
+              Experimenta con los aparatos de tu hogar, observa su consumo
+              aproximado y descubre qué hábito tiene mayor impacto.
+            </p>
+            <div class="hero-foot">
+              <span>01 / Configura</span>
+              <span>02 / Compara</span>
+              <span>03 / Decide</span>
+            </div>
+          </div>
+          <div class="orb" aria-hidden="true">
+            <div class="orb-inner">kWh<span>por mes</span></div>
+          </div>
+        </section>
+
+        <section class="workspace">
+          <div class="panel controls">
+            <div class="section-head">
+              <div>
+                <span class="overline">01 / TU ESCENARIO</span>
+                <h2>Agrega un aparato</h2>
+              </div>
+              <span class="tiny">DATOS ESTIMADOS</span>
+            </div>
+
+            <form id="device-form">
+              <label for="device">Aparato</label>
+              <select id="device" required>
+                <option value="foco">Foco LED</option>
+                <option value="ventilador">Ventilador</option>
+                <option value="television">Televisión</option>
+                <option value="refrigerador">Refrigerador</option>
+                <option value="laptop">Computadora portátil</option>
+                <option value="microondas">Microondas</option>
+                <option value="lavadora">Lavadora</option>
+                <option value="personalizado">Personalizado</option>
+              </select>
+
+              <div class="two">
+                <div>
+                  <label for="power">Potencia (W)</label>
+                  <input
+                    type="number"
+                    id="power"
+                    min="1"
+                    max="10000"
+                    value="10"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="hours">Horas al día</label>
+                  <input
+                    type="number"
+                    id="hours"
+                    min="0.1"
+                    max="24"
+                    step="0.1"
+                    value="5"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="two">
+                <div>
+                  <label for="quantity">Cantidad</label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    min="1"
+                    max="50"
+                    step="1"
+                    value="3"
+                    required
+                  />
+                </div>
+                <div>
+                  <label for="rate">Tarifa estimada (MXN/kWh)</label>
+                  <input
+                    type="number"
+                    id="rate"
+                    min="0.01"
+                    max="100"
+                    step="0.01"
+                    value="1.20"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button type="submit" class="primary">
+                + Añadir al escenario
+              </button>
+              <p class="note">
+                Los valores son ejemplos editables. No representan una tarifa
+                oficial ni sustituyen mediciones eléctricas.
+              </p>
+            </form>
+
+            <div class="section-head compact">
+              <h2>Mis aparatos</h2>
+              <button type="button" class="text-button" id="reset">
+                Restablecer
+              </button>
+            </div>
+            <ul id="devices" class="device-list" aria-live="polite"></ul>
+          </div>
+
+          <div class="results">
+            <section class="panel summary">
+              <div class="section-head">
+                <div>
+                  <span class="overline">02 / RESULTADOS</span>
+                  <h2>Panorama mensual</h2>
+                </div>
+                <span class="tiny">30 DÍAS</span>
+              </div>
+
+              <div class="metrics">
+                <div>
+                  <span>Consumo calculado</span>
+                  <strong id="energy">0.0 <small>kWh</small></strong>
+                </div>
+                <div>
+                  <span>Gasto estimado</span>
+                  <strong id="cost">$0 <small>MXN</small></strong>
+                </div>
+              </div>
+
+              <div class="chart-header">
+                <span>Participación por aparato</span>
+                <span id="count">0 aparatos</span>
+              </div>
+              <div
+                id="bars"
+                class="bars"
+                aria-label="Desglose de consumo"
+              ></div>
+            </section>
+
+            <section class="panel insight">
+              <span class="overline">03 / LABORATORIO DE AHORRO</span>
+              <h2>¿Y si cambias un hábito?</h2>
+              <p>
+                Reduce las horas de uso diario de todos los aparatos y compara
+                el escenario original con el alternativo.
+              </p>
+
+              <label for="reduction">
+                Reducir horas de uso: <strong id="reduction-label">20 %</strong>
+              </label>
+              <input
+                id="reduction"
+                type="range"
+                min="0"
+                max="70"
+                step="5"
+                value="20"
+              />
+
+              <div class="saving">
+                <div>
+                  <span>Ahorro aproximado al mes</span>
+                  <strong id="saving">$0.00</strong>
+                </div>
+                <div>
+                  <span>Energía evitada</span>
+                  <strong id="saved-energy">0.0 kWh</strong>
+                </div>
+              </div>
+
+              <p class="tip" id="tip" aria-live="polite"></p>
+            </section>
+          </div>
+        </section>
+
+        <footer>
+          <span>VOLTARIO</span>
+          <span>Los resultados son simulaciones, no recibos ni mediciones reales.</span>
+        </footer>
+      </main>
+    </div>
+
+    <script defer src="js/app.min.js"></script>
+  </body>
+</html>
